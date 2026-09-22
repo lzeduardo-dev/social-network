@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: rede-social
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/rede_social}
+    username: ${DB_USER:rede_social}
+    password: ${DB_PASSWORD:rede_social}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+
+server:
+  port: 8080

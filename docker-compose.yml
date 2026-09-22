@@ -1,0 +1,35 @@
+services:
+  app:
+    build: .
+    container_name: rede-social
+    ports:
+      - "8080:8080"
+    environment:
+      DB_URL: jdbc:postgresql://db:5432/rede_social
+      DB_USER: rede_social
+      DB_PASSWORD: rede_social
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  db:
+    image: postgres:17
+    container_name: rede-social-db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: rede_social
+      POSTGRES_USER: rede_social
+      POSTGRES_PASSWORD: rede_social
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rede_social -d rede_social"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  pgdata:
