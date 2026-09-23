@@ -7,8 +7,14 @@ spring:
     password: ${DB_PASSWORD:rede_social}
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
     open-in-view: false
 
 server:
   port: 8080
+
+jwt:
+  # Chave HMAC em Base64 (minimo 256 bits). Gere com: openssl rand -base64 32
+  secret: ${JWT_SECRET}
+  # Tempo de validade do token em milissegundos (padrao: 24h)
+  expiration: ${JWT_EXPIRATION:86400000}

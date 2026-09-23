@@ -33,8 +33,11 @@ public class User {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private String nickname;
+    @Column(nullable = false, unique = true)
+    private String username;
+
+    @Column(length = 500)
+    private String bio;
 
     @Column(nullable = false, unique = true)
     private String email;
