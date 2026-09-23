@@ -8,6 +8,7 @@ services:
       DB_URL: jdbc:postgresql://db:5432/rede_social
       DB_USER: rede_social
       DB_PASSWORD: rede_social
+      JWT_SECRET: ${JWT_SECRET:?defina JWT_SECRET no arquivo .env}
     depends_on:
       db:
         condition: service_healthy
