@@ -1,14 +1,21 @@
 spring:
   application:
     name: rede-social
+  config:
+    # Carrega variaveis do .env (ex.: JWT_SECRET) ao rodar fora do Docker
+    import: optional:file:.env[.properties]
   datasource:
-    url: ${DB_URL:jdbc:postgresql://localhost:5432/rede_social}
+    url: ${DB_URL:jdbc:postgresql://localhost:5437/rede_social}
     username: ${DB_USER:rede_social}
     password: ${DB_PASSWORD:rede_social}
   jpa:
     hibernate:
       ddl-auto: update
     open-in-view: false
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
 server:
   port: 8080
@@ -18,3 +25,23 @@ jwt:
   secret: ${JWT_SECRET}
   # Tempo de validade do token em milissegundos (padrao: 24h)
   expiration: ${JWT_EXPIRATION:86400000}
+
+aws:
+  region: ${AWS_REGION:us-east-1}
+  # Se vazias, usa a cadeia padrao de credenciais da AWS (env, ~/.aws, IAM role)
+  access-key: ${AWS_ACCESS_KEY_ID:}
+  secret-key: ${AWS_SECRET_ACCESS_KEY:}
+  s3:
+    bucket: ${AWS_S3_BUCKET}
+    # Opcional: endpoint de S3 compativel (ex.: http://localhost:4566 no LocalStack)
+    endpoint: ${AWS_S3_ENDPOINT:}
+    # Opcional: base publica das URLs de midia (CDN, ou http://localhost:4566/<bucket> no LocalStack)
+    public-url: ${AWS_S3_PUBLIC_URL:}
+
+websocket:
+  # Origens permitidas no handshake de /ws, separadas por virgula (ex.: http://localhost:3000)
+  allowed-origins: ${WEBSOCKET_ALLOWED_ORIGINS:*}
+
+cors:
+  # Origens que podem chamar a API REST, separadas por virgula (ex.: http://localhost:3000)
+  allowed-origins: ${CORS_ALLOWED_ORIGINS:*}

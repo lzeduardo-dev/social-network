@@ -1,0 +1,58 @@
+{
+  "properties": [
+    {
+      "name": "jwt.secret",
+      "type": "java.lang.String",
+      "description": "Chave HMAC em Base64 (minimo 256 bits) usada para assinar os tokens JWT."
+    },
+    {
+      "name": "jwt.expiration",
+      "type": "java.lang.Long",
+      "description": "Tempo de validade do token em milissegundos.",
+      "defaultValue": 86400000
+    },
+    {
+      "name": "aws.region",
+      "type": "java.lang.String",
+      "description": "Regiao AWS do bucket S3.",
+      "defaultValue": "us-east-1"
+    },
+    {
+      "name": "aws.access-key",
+      "type": "java.lang.String",
+      "description": "Access key da AWS. Se vazia, usa a cadeia padrao de credenciais."
+    },
+    {
+      "name": "aws.secret-key",
+      "type": "java.lang.String",
+      "description": "Secret key da AWS. Se vazia, usa a cadeia padrao de credenciais."
+    },
+    {
+      "name": "aws.s3.bucket",
+      "type": "java.lang.String",
+      "description": "Nome do bucket S3 onde as midias sao armazenadas."
+    },
+    {
+      "name": "aws.s3.endpoint",
+      "type": "java.lang.String",
+      "description": "Endpoint opcional de S3 compativel (ex.: LocalStack/MinIO)."
+    },
+    {
+      "name": "aws.s3.public-url",
+      "type": "java.lang.String",
+      "description": "Base publica opcional das URLs de midia (ex.: CDN). Se vazia, usa a URL padrao do S3."
+    },
+    {
+      "name": "websocket.allowed-origins",
+      "type": "java.lang.String[]",
+      "description": "Origens permitidas no handshake do WebSocket (/ws), separadas por virgula. Aceita padroes (ex.: https://*.meudominio.com).",
+      "defaultValue": "*"
+    },
+    {
+      "name": "cors.allowed-origins",
+      "type": "java.util.List<java.lang.String>",
+      "description": "Origens permitidas a chamar a API REST (CORS), separadas por virgula. Aceita padroes (ex.: https://*.meudominio.com).",
+      "defaultValue": "*"
+    }
+  ]
+}
