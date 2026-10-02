@@ -36,14 +36,14 @@ public class Post {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private User author;
 
     @Column(name = "content")
-    private String subtitle;
+    private String content;
     
-    @Column(name = "media_url")
-    private String mediaUrl;
-
+    // Chave do objeto no bucket (ex.: posts/<uuid>.png); a URL e montada na leitura
+    @Column(name = "media_key")
+    private String mediaKey;
     
     @CreationTimestamp
     @Column(name = "criado_em", nullable = false, updatable = false)
