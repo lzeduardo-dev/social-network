@@ -1,0 +1,45 @@
+package com.luizeduardo.socialnetwork.config;
+
+import com.luizeduardo.socialnetwork.security.WebSocketJwtInterceptor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.simp.config.ChannelRegistration;
+import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
+import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
+import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
+
+@Configuration
+@EnableWebSocketMessageBroker
+@RequiredArgsConstructor
+public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+
+    private final WebSocketJwtInterceptor webSocketJwtInterceptor;
+    private final WebSocketErrorHandler webSocketErrorHandler;
+
+    @Value("${websocket.allowed-origins:*}")
+    private String[] allowedOrigins;
+
+    @Override
+    public void registerStompEndpoints(StompEndpointRegistry registry) {
+        // Conexao nativa (ws://host/ws); o JWT vai no header Authorization do frame CONNECT
+        registry.addEndpoint("/ws").setAllowedOriginPatterns(allowedOrigins);
+        // Devolve no frame ERROR o motivo real da recusa (token invalido, destino proibido)
+        registry.setErrorHandler(webSocketErrorHandler);
+    }
+
+    @Override
+    public void configureMessageBroker(MessageBrokerRegistry registry) {
+        // Mensagens do cliente para @MessageMapping comecam com /app
+        registry.setApplicationDestinationPrefixes("/app");
+        // Broker em memoria entrega nas filas privadas: /user/queue/... -> sessoes daquele usuario
+        registry.enableSimpleBroker("/queue");
+        registry.setUserDestinationPrefix("/user");
+    }
+
+    @Override
+    public void configureClientInboundChannel(ChannelRegistration registration) {
+        registration.interceptors(webSocketJwtInterceptor);
+    }
+}
