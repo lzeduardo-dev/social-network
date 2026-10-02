@@ -36,7 +36,7 @@ public class User {
     @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(length = 500)
+    @Column(length = 160)
     private String bio;
 
     @Column(nullable = false, unique = true)
@@ -44,6 +44,8 @@ public class User {
 
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;
+
+    private String avatarKey;
 
     @CreationTimestamp
     @Column(name = "criado_em", nullable = false, updatable = false)
