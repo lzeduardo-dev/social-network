@@ -9,6 +9,13 @@ services:
       DB_USER: rede_social
       DB_PASSWORD: rede_social
       JWT_SECRET: ${JWT_SECRET:?defina JWT_SECRET no arquivo .env}
+      AWS_REGION: ${AWS_REGION:-us-east-1}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-}
+      AWS_S3_BUCKET: ${AWS_S3_BUCKET:?defina AWS_S3_BUCKET no arquivo .env}
+      # Para usar o LocalStack: AWS_S3_ENDPOINT=http://localstack:4566
+      AWS_S3_ENDPOINT: ${AWS_S3_ENDPOINT:-}
+      AWS_S3_PUBLIC_URL: ${AWS_S3_PUBLIC_URL:-}
     depends_on:
       db:
         condition: service_healthy
@@ -18,7 +25,7 @@ services:
     image: postgres:17
     container_name: rede-social-db
     ports:
-      - "5432:5432"
+      - "5437:5432"
     environment:
       POSTGRES_DB: rede_social
       POSTGRES_USER: rede_social
@@ -30,6 +37,20 @@ services:
       interval: 5s
       timeout: 3s
       retries: 10
+    restart: unless-stopped
+
+  # S3 local para desenvolvimento; o init-s3.sh cria o bucket quando o LocalStack fica pronto
+  localstack:
+    image: localstack/localstack:4
+    container_name: rede-social-s3
+    ports:
+      - "4566:4566"
+    environment:
+      SERVICES: s3
+      AWS_DEFAULT_REGION: ${AWS_REGION:-us-east-1}
+      AWS_S3_BUCKET: ${AWS_S3_BUCKET:?defina AWS_S3_BUCKET no arquivo .env}
+    volumes:
+      - ./docker/localstack/init-s3.sh:/etc/localstack/init/ready.d/init-s3.sh
     restart: unless-stopped
 
 volumes:
