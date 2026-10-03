@@ -74,3 +74,6 @@ docker-compose.override.yml
 *.bak
 hs_err_pid*
 replay_pid*
+
+### Testes manuais locais ###
+teste-ws/
