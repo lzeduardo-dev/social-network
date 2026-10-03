@@ -26,8 +26,11 @@ public class UserService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         // O getName retorna o subject que foi definido no JWT 
-        String email = authentication.getName();
+        return getUserByEmail(authentication.getName());
+    }
 
+    // Usado fora do SecurityContext (ex.: mensagens WebSocket, onde so temos o Principal)
+    public User getUserByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "usuário não autenticado"));
     }
 
