@@ -42,6 +42,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // /ws: o handshake e publico; a autenticacao acontece no CONNECT do STOMP (WebSocketJwtInterceptor)
                         .requestMatchers("/api/auth/**", "/ws", "/actuator/health", "/error").permitAll()
+                        // Documentacao da API (Swagger UI e especificacao OpenAPI)
+                        .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated())
                 // Sem token valido: 401 em vez da pagina de login padrao
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))

@@ -45,3 +45,13 @@ websocket:
 cors:
   # Origens que podem chamar a API REST, separadas por virgula (ex.: http://localhost:3000)
   allowed-origins: ${CORS_ALLOWED_ORIGINS:*}
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    # Mantem o token informado em "Authorize" ao recarregar a pagina
+    persist-authorization: true
+    tags-sorter: alpha
+    operations-sorter: method
