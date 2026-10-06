@@ -1,7 +1,7 @@
 package com.luizeduardo.socialnetwork.modules.user.service;
 
+import com.luizeduardo.socialnetwork.modules.user.dto.AuthRequestDTO;
 import com.luizeduardo.socialnetwork.modules.user.dto.AuthResponseDTO;
-import com.luizeduardo.socialnetwork.modules.user.dto.LoginRequestDTO;
 import com.luizeduardo.socialnetwork.modules.user.dto.RegisterRequestDTO;
 import com.luizeduardo.socialnetwork.modules.user.model.User;
 import com.luizeduardo.socialnetwork.modules.user.repository.UserRepository;
@@ -50,7 +50,7 @@ public class AuthService {
         return toResponse(user);
     }
 
-    public AuthResponseDTO login(LoginRequestDTO request) {
+    public AuthResponseDTO login(AuthRequestDTO request) {
         try {
             // Valida email + senha contra o hash BCrypt via UserDetailsService
             authenticationManager.authenticate(
